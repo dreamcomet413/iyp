@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phone finch</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <!--[if IE]>
+    <style type="text/css">
+      .form{
+      width: 590px;
+      }
+    </style>
+    <![endif]-->  
+    <!-- <script type="text/javascript" src="http://static.citygridmedia.com/ads/scripts/v2/loader.js"></script> -->
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <%= stylesheet_link_tag    "application-common", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+
+    <% if mobile_device? %>
+      <%= stylesheet_link_tag "application-mobile" %>
+    <% else %>
+      <%= stylesheet_link_tag "application-normal", media: "all" %>
+    <% end %>
+
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+
+    <%= yield %>
+
+  </body>
+</html>

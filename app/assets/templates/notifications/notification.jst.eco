@@ -1,0 +1,4 @@
+<div class="alert alert-success thank_you_notification">
+  <a class="close" data-dismiss="alert" href="#">×</a>
+  Thank you!
+</div>

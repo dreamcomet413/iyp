@@ -1,0 +1,10 @@
+/**
+* application-common.css
+*
+*= require_self
+*= require_style
+*= require black-tie
+*= require_tree ./common
+*/
+
+@import "bootstrap";

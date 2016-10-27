@@ -1,0 +1,45 @@
+<div class="standard-offer reveal-modal">
+  <a class="close-reveal-modal">&#215;</a>
+  <div class="finch">
+  </div>
+  <div class="offer-header">
+    <h2>ONE-CHANCE OFFER...</h2>
+  </div>
+  <div class="offer-content">
+    <h4>This offer is avaliable to you only once!</h4>
+    <h1><%= @offer.get('company') %></h1>
+    <div class="phone-number">
+     <img src="assets/phone-icon.png">
+     <h1 data-phone-number-link="<%= @offer.get('finalPhoneNumberLink')%>" data-phone-number="<%= @offer.get('finalPhoneNumber')%>">View Phone Number</h1>
+     <div style="clear: both;"></div>
+    </div>
+    <div class="counter counter-<%= @offer.get('id') %>" style="background-color: transparent !important;"></div>
+    <h2><%= @offer.get('headline') %></h2>
+    <h3><%= @offer.get('body_text_1') %></h3>
+    <h3><%= @offer.get('body_text_2') %></h3>
+    <div style="width: 80%; margin: 0px auto;">
+    <h3 class="bigger"><%= @offer.get('slogan') %></h3>
+    </div>
+  </div>
+  <div class="offer-info">
+    <% if @offer.get('show_address') || @offer.get('show_address') == null : %>
+      <h3><%= @offer.get('address1') %></h3>
+      <h3><%= @offer.get('city') %>, <%= @offer.get('state') %></h3>
+      <h3><%= @offer.get('zip') %></h3>
+    <% else: %>
+      <h3>Serving <%= @offer.get('city') %> and Area</h3>
+    <% end %>
+    <img src="<%= @offer.get('logo_url') %>">
+  </div>
+  <div class="offer-footer">
+  <h1><b>CALL NOW:</b></h1>
+    <div class="phone-number-container">
+      <div class="phone-number">
+       <img src="assets/phone-icon.png">
+       <h1 data-phone-number="<%= @offer.get('finalPhoneNumber')%>">View Phone Number</h1>
+       <div style="clear: both;"></div>
+      </div>
+    </div>
+    <div class="ad-info">Featured ads powered by AdverCalls&reg; Affiliate Network</div>
+  </div>
+</div>

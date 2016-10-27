@@ -1,0 +1,223 @@
+.standard-offer {
+  background: white image-url('swoosh.png') !important;
+  background-repeat:no-repeat !important;
+  background-position: 5px 5px !important;
+  padding: 5px 5px 5px 5px !important;
+  height: 555px !important;
+  width: 560px !important;
+  font-style:italic;
+}
+
+.iframe-offer {
+  font-style:italic;
+  h1 {
+    color:#000;
+    font-size: 26px;
+  }
+  h2 {
+    color: #990000;
+    font-size: 26px;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+  }
+  iframe { 
+    width: 100%;
+    height: 500px;
+  }
+  .small-offer {
+    font-size: 14px;
+  }
+  .ad-info {
+    font-size: 12px;
+    color: #999;
+    font-style:normal;
+  }
+}
+
+.embedded-offer {
+  font-style:italic;
+  h1 {
+    color:#000;
+    font-size: 26px;
+  }
+  h3 {
+    color: #000;
+    padding-bottom: 20px;
+    font-size: 14px;
+  }
+  .ad-info {
+    font-size: 12px;
+    color: #999;
+    font-style:normal;
+    position: absolute;
+    bottom: 0px;
+    right: 30px;
+  }
+}
+
+.offer-header {
+  background: #303149;
+  height: 50px;
+  color: #b1110d;
+  text-align: center;
+  h2 {
+    padding-top: 5px;
+    font-size: 26px;
+    line-height: 150%;
+  }
+}
+
+.offer-content {
+  text-align: center;
+  h1 {
+    text-align: center;
+    font-style:normal;
+    font-size: 30px;
+    padding-top: 20px;
+    color: #070048;
+  }
+  h2 {
+    padding-top: 25px;
+    color: #b1110d;
+    font-size: 30px;
+  }
+  h3 {
+    color: #000;
+  }
+  h3.bigger {
+    font-size: 30px;
+    color: #000;
+    margin-top: 20px;
+  }
+
+}
+
+.embedded-content {
+  text-align: center;
+}
+
+.phone-number {
+  cursor: pointer;
+  cursor: hand;
+  text-align: right;
+  width: 280px;
+  height: 40px;
+  margin: 0px auto;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  border: 1px solid #009056;
+  background-image: linear-gradient(bottom, rgb(0,144,86) 6%, rgb(178,249,205) 53%);
+  background-image: -o-linear-gradient(bottom, rgb(0,144,86) 6%, rgb(178,249,205) 53%);
+  background-image: -moz-linear-gradient(bottom, rgb(0,144,86) 6%, rgb(178,249,205) 53%);
+  background-image: -webkit-linear-gradient(bottom, rgb(0,144,86) 6%, rgb(178,249,205) 53%);
+  background-image: -ms-linear-gradient(bottom, rgb(0,144,86) 6%, rgb(178,249,205) 53%);
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.06, rgb(0,144,86)),
+    color-stop(0.53, rgb(178,249,205))
+  );
+  h1 {
+    margin: 0px;
+    padding: 0px;
+    line-height: 40px;
+    text-align: right;
+    font-style: normal;
+    font-size: 22px;
+    color: #313931;
+    padding-right: 10px;
+  }
+  a {
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    line-height: 40px;
+    font-style: normal;
+    font-size: 20px;
+    color: #313931;
+    padding-right: 10px;
+  }
+  a:hover, a:visited {
+    color: #990000 !important;
+  }
+  img {
+    float: left;
+    margin: 3px;
+  }
+}
+
+.offer-info {
+  position: absolute;
+  bottom: 75px;
+  left: 5px;
+  height: 90px;
+  width: 560px;
+  background: #fff;
+  background-color:rgba(255,255,255,0.5);
+  h3 {
+    color: #070048;
+    margin-left: 20px;
+    font-size: 16px;
+  }
+  img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+.phone-number-container {
+  position: absolute;
+  top: 5px;
+  right: 50px;
+  h1 {
+    margin: 0px !important;
+    padding: 0px !important;
+    line-height: 40px !important;
+    text-align: right !important;
+    font-style: normal !important;
+    font-size: 22px !important;
+    color: #313931 !important;
+    padding-right: 10px !important;
+  }
+}
+
+.offer-footer {
+  font-style:italic;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background: #ffbd42;
+  height: 70px;
+  width: 560px;
+  h1 {
+    color: #070048;
+    size: 40px;
+    margin-left: 20px;
+    line-height: 50px;
+  }
+  .ad-info {
+    position: absolute;
+    bottom: 2px;
+    left: 5px;
+  }
+}
+
+.finch {
+  background: image-url('flying-finch.png');
+  width: 121px;
+  height: 127px;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+}
+
+
+.ad-image-container {
+  margin-top: 40px;
+  width:100%;
+  text-align: center;
+}

@@ -1,0 +1,10 @@
+search_history:
+  allowed_count: 60
+  interval_in_minutes: 60
+  ban_period_in_minutes: 10
+
+num_display:
+  allowed_count: 30
+  interval_in_minutes: 30
+  ban_period_in_minutes: 10
+

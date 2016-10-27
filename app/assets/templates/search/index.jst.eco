@@ -1,0 +1,49 @@
+<header>
+  <div class="report-a-problem"><a href="mailto:bugs@paypercall.org">Report a problem</a></div>
+  <div class="wrapper">
+    <div class="form_wrapper">      
+      <div class="form">
+        <form id="search_form">
+          <div class="form_fields">
+            <div class="input_1">
+              <input type="text" id="city" name="city" value="<%= @city.replace(/\+/gi, " ") %>" class="inputs"/>
+            </div>
+            <div class="input_2">
+              <input type="text" id="category" name="category" placeholder="Business Name or Category" class="inputs" />
+              <input type="hidden" id="suggested_category" name="suggested_category" />
+              <input type="hidden" id="suggested_city" name="suggested_city" />
+              <input type="hidden" id="geolocation" name="geolocation" />
+            </div>
+          </div>
+          <div class="input_3 submit_button">
+            <button type="submit" name="submit" class="submit"></button>
+          </div>
+          <div style="clear: both;"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+<aside>
+  <div id="loading-search" style="height: 20px; margin-top: 5px;"></div>
+  <div id="search-results"></div>
+  <div id="get-better-results"></div>
+</aside>
+<section>
+    <div id="advs"></div>
+</section>
+<section>
+    <div id="adsense">
+      <script type="text/javascript">
+        // google_ad_client = "ca-pub-3091046552207365";
+        // /* Widget-wapi */
+        // google_ad_slot = "8035723257";
+        // google_ad_width = 300;
+        // google_ad_height = 250;
+        
+      </script>
+      <!-- <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+       </script> -->
+    </div>
+</section>
+

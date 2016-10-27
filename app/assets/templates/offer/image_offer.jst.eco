@@ -1,0 +1,14 @@
+<div class="reveal-modal embedded-offer">
+  <a class="close-reveal-modal">&#215;</a>
+  <h1>ONE-CHANCE OFFER</h1>
+  <h3 class="small-offer"> This offer is avaliable to you only once...</span></h3>
+  <div class="ad-image-container">
+    <% if @offer.get('ad_graphic_url'): %>
+      <a href="<%= @offer.get('ad_graphic_link')%>" target="_blank"><img src="<%= @offer.get('ad_graphic_url') %>"></a>
+    <% else: %>
+      <img src="<%= @offer.get('ad_graphic_url') %>">
+    <% end %>
+  </div>
+  <div class="ad-info">Featured ads powered by AdverCalls&reg; Affiliate Network</div>
+</div>
+

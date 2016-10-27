@@ -1,0 +1,109 @@
+<div class="adv" id="adv-<%=@entry.get('ad_value')%>">
+  <h3 class="company">
+    <%= @entry.get('company') %>
+  </h3>
+
+  <% if(@entry.get('logo_url')): %>
+    <div class="slogan">
+      <img src="<%= @entry.get('logo_url') %>" alt="<%= @entry.get('company') %>"/>
+      <% if (@entry.get('slogan')): %>
+        <p class="slogan-text right"><%= @entry.get('slogan') %></p>
+      <% end %>
+    </div>
+  <% else: %>
+    <% if(@entry.get('slogan')): %>
+      <div class="slogan">
+        <p class="slogan-text left full-width clean-padding-left"><%= @entry.get('slogan') %></p>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="headline"><%= @entry.get('headline') %></div>
+  <% if(@entry.get('body_text_1')): %>
+    <div class="bodies-container">
+      <div class="body">
+        <%= @entry.get('body_text_1') %>
+      </div>
+      <% if(@entry.get('body_text_2')): %>
+        <div class="body body2">
+          <%= @entry.get('body_text_2') %>
+        </div>
+      <% end %>
+    </div>
+  <% else: %>
+      <% if(@entry.get('body_text_2')): %>
+        <div class="bodies-container">
+          <div class="body body2">
+            <%= @entry.get('body_text_2') %>
+          </div>
+        </div>
+      <% end %>
+  <% end %>
+
+  <% if(@entry.get('show_address') == 0): %>
+    <div class="address">Serving <%= @city %> & Area</div>
+  <% else: %>
+    <div class="address"><%= @entry.get('address1') %></div>
+    <div class="city-state"><%= @entry.get('citystate') %> <%= @entry.get('zip') %></div>
+  <% end %>
+
+    <a class="telephone-link green-phone clickTo-<%=@entry.get('id')%>" href="#">View Phone Number</a>
+    <div class="telephone-number telephone-<%=@entry.get('id')%>" style="display: hidden"></div>
+    <div class="counter counter-<%=@entry.get('id')%>" style="display: hidden"></div>
+    <div class="website">
+      <% if @entry.get('url'): %>
+        <a href="<%= @entry.get('url') %>" target="_blank">Website</a>
+      <% end %>
+    </div>
+</div>
+
+<div class="modal hide fade modal-fullscreen" id="abuse-popup">
+    <div class="modal-header">
+      <button class="close" data-dismiss="modal">×</button>
+      <h3>Warning</h3>
+    </div>
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <fieldset>
+        </fieldset>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" id="close-abuse">Close</a>
+    </div>
+</div>
+
+<div class="modal hide fade modal-fullscreen" id="overusage-error">
+    <div class="modal-header">
+      <button class="close" data-dismiss="modal">×</button>
+      <h3>Error</h3>
+    </div>
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <fieldset>
+          Your usage of the Finch is unusually high. To prevent spam attacks on our servers, your usage has been throttled. Please try again in a few minutes. If you think this message has been given in error, please inform us at webmaster@paypercall.org.
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn" id="close-prevent-attack">Close</a>
+    </div>
+</div>
+
+<div class="modal hide fade modal-fullscreen" id="heavy-load">
+    <div class="modal-header">
+      <button class="close" data-dismiss="modal">×</button>
+      <h3>Error</h3>
+    </div>
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <fieldset>
+          <h3>Heavy server load.</h3><p>Please try again in another minute</p>
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn" id="close-heavy-load">Close</a>
+    </div>
+</div>

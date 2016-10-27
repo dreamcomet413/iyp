@@ -1,0 +1,7 @@
+<div class="reveal-modal xlarge iframe-offer">
+  <h1>ONE-CHANCE OFFER <span class="small-offer">This offer is avaliable to you only once...</span></h1>
+  <h2><%= @offer.get('iframe_headline') %></h2>
+  <iframe src="<%= @offer.get('iframe_url') %>"></iframe>
+  <div class="ad-info">Featured ads powered by AdverCalls&reg; Affiliate Network</div>
+  <a class="close-reveal-modal">&#215;</a
+</div>

@@ -1,0 +1,1 @@
+<h2>NO RESULTS FOR: <%= @model.category %> <%= @model.city %> </h2>

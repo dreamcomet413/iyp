@@ -1,0 +1,212 @@
+// Place all the styles related to the listings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.loading {
+  background: white image-url('ui-anim_basic_16x16.gif') left center no-repeat;
+}
+
+#search-results {
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  border: 2px solid #90908e;
+  display:none;
+  background-image: linear-gradient(right , #FFFFFF 14%, #FFFFDB 49%, #F8F696 87%);
+  background-image: -o-linear-gradient(right , #FFFFFF 14%, #FFFFDB 49%, #F8F696 87%);
+  background-image: -moz-linear-gradient(right , #FFFFFF 14%, #FFFFDB 49%, #F8F696 87%);
+  background-image: -webkit-linear-gradient(right , #FFFFFF 14%, #FFFFDB 49%, #F8F696 87%);
+  background-image: -ms-linear-gradient(right , #FFFFFF 14%, #FFFFDB 49%, #F8F696 87%);
+
+  background-image: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(0.14, #FFFFFF),
+    color-stop(0.49, #FFFFDB),
+    color-stop(0.87, #F8F696)
+  );
+
+  h2 {
+    padding: 6px 0 0 6px;
+    font-weight: bolder;
+    color: #90908e;
+    font-size: 16px;
+  }
+
+  .category {
+    padding: 0 0 6px 6px;
+    color: #000;
+    font-size: 10px;
+  }
+
+  .listing {
+    margin: 0;
+    padding: 10px;
+    width: 80%;
+    overflow: hidden;
+    border-top: 1px solid #90908e;
+    border-collapse:collapse;
+
+    h3.company {
+      color: #6b3184;
+      font-weight: bold;
+    }
+
+    .improve-listing-message {
+      width:130px;
+      float:right;
+      color:#6d6d6d;
+    }
+    .categories {color: #75a149;}
+
+    .blue-phone {
+      background: image-url("phone_blue.png") no-repeat transparent;
+    }
+
+  }
+
+  .last-item {
+    border-bottom: 1px solid #90908e;
+  }
+
+}
+
+.headline {
+  font-size: 15px; 
+  font-weight: bold;
+  clear:both;
+  width:100%;
+}
+.city-state, .address, .headline {
+  color: #000;
+}
+.slogan {font-size: 12px;}
+
+.telephone-link {
+  color: #016cbd;
+  padding-left: 37px;
+  padding-top: 7px;
+  background-position: -10px -10px;
+  height: 25px;
+  display: block;
+  text-decoration: underline;
+  font-weight: bold;
+  width:136px;
+}
+
+.telephone-link:hover {color: #016cbd;}
+
+.counter {
+  background-color: #fff !important;
+  border: none !important;
+  color: red;
+  font-weight: bold;
+}
+
+#advs {
+  margin: 20px 0 0 10px;
+
+  .adv {
+    border-collapse: collapse;
+    border-bottom: 1px solid #90908E;
+    padding-bottom:5px;
+    margin-top:8px;
+    h3.company {
+      font-weight: bold;
+      color: #ac0201;
+    }
+    .bodies-container
+    {
+      margin-bottom:10px;
+    }
+    .body {
+      color: #000;
+      font-weight: bold;
+      clear:both;
+    }
+    .website {
+      text-align: right;
+      padding-right:25px;
+      font-size: 11px;
+      margin-top: 5px;
+      a {
+        color: #070af8;
+        text-decoration: underline;
+      }
+    }
+
+    .slogan {
+      margin-top:5px;
+      min-height:13px;
+      .slogan-text {
+        font-size: 11px;
+        font-style: italic;
+        line-height: 11px;
+        padding-left: 5px;
+        width: 145px;
+      }
+      .full-width {
+        width:100%;
+      }
+
+      .clean-padding-left {
+        padding-left:0;
+      }
+      img {
+        width:140px;
+        float:left;
+      }
+    }
+
+    .green-phone {
+      background: image-url("phone_green.png") no-repeat transparent;
+    }
+  }
+}
+.right {
+  float:right;
+}
+.left {
+  float:left;
+}
+
+.full-width {
+  width:100%;
+}
+
+.clean-padding-left {
+  padding-left:0;
+}
+
+.telephone-number {
+  font-size: 18px;
+  color: #016cbd;
+  font-weight:bold;
+}
+
+#listings {
+  -webkit-border-bottom-right-radius: 15px;
+  -webkit-border-bottom-left-radius: 15px;
+  -moz-border-radius-bottomright: 15px;
+  -moz-border-radius-bottomleft: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  background-color: #ffffff;
+  padding-bottom: 15px;
+}
+
+
+input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+}
+
+.thank_you_notification {
+  margin-top: 25px;
+  margin-bottom: -10px;
+}
+
+#get-better-results-link {
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: underline;
+}

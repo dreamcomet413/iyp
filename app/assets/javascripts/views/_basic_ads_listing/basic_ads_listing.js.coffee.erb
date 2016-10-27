@@ -1,0 +1,140 @@
+class Widget.Views.BasicAdvListing extends Backbone.View
+  events: ->
+    "click .telephone-link"          : "phoneClick"
+    "click .improve-listing-message" : "showImproveListing"
+    "click #submit-improve-listing"  : "improveListing"
+    "click #close-heavy-load"        : "closeHeavyLoad"
+    "click #close-prevent-attack"    : "closePreventAttack"
+    "click #close-abuse"             : "closeAbuse"
+
+  closeHeavyLoad: ->
+    @$('#heavy-load').modal('toggle')
+
+  closePreventAttack: ->
+    @$('#overusage-error').modal('toggle')
+
+  closeAbuse: ->
+    @$('#abuse-popup').modal('toggle')
+
+  render: ->
+    @$el.html(@template(entry: @model))
+    @displayed_at = new Date()
+    @
+
+  updateClickedPhoneNumberRequest: (options) ->
+    @requestFor "update_clicked_phone_number"
+      data:
+        display_num:     @model.get('term_num')
+        solr_term_num:   @model.get('solr_term_num')
+        solr_listing_id: @model.get('id')
+        listing_display_histories_id: @model.get('listing_display_histories_id')
+      failure: (resp) => @handleError(resp)
+
+
+  handleError: (resp) =>
+    if resp.status == 200
+      return
+    else if resp.responseText? and JSON.parse(resp.responseText).warning?
+      @$('#abuse-popup fieldset').html('Your use of the Finch is a bit unusual. If this pattern continues, you run the risk of being blocked from using the app. You can close this window and retry your search now')
+      @$('#abuse-popup').modal('toggle')
+    else if resp.responseText? and JSON.parse(resp.responseText).error?
+      @$('#abuse-popup fieldset').html('Your use of the Phone Finch is unusually high, indicating potential abuse. You will now be locked out of the system for a random period of time. Please try your search again later. This is a friendly warning that if these search patterns continue, you will be banned from the system permanently.')
+      @$('#abuse-popup').modal('toggle')
+      $('.telephone-link').remove()
+
+
+  improveListingRequset: (options) ->
+    @requestFor "improve_listings"
+      data:
+        improve_listing:
+          term_num_nis: options.term_num_nis
+          comment: options.comment
+      success: -> options.success()
+
+
+  showImproveListing: ->
+    @$('#myModal').modal('toggle')
+
+  improveListing: ->
+    @$('#myModal').modal('toggle')
+    @improveListingRequset
+      term_num_nis: @$("#term-num-nis").is(':checked')
+      comment:      @$("#comment").val()
+      success: ->
+        flash = new Widget.Views.Notification()
+        $("header").append(flash.render().el)
+        flash.remove_element_slowly()
+
+
+  updatePhoneNumberRequest: (options) ->
+    @requestFor "update_reserved_number"
+      data:
+        num_type: @model.get('num_type')
+        term_num: @model.get('solr_term_num')
+      success: (resp) -> options.success(resp)
+      failure: (resp) => @handleError(resp)
+
+  requestFor: (action, options) ->
+    $.ajax
+      type: 'POST'
+      url: "/api/listings/#{@model.get('id')}/#{action}"
+      dataType: "json"
+      data: jQuery.extend(options.data, key: '<%=  Digest::SHA1.hexdigest(Time.now.utc.hour.to_s+'sstsecret') %>')
+      success: (resp) -> options.success(resp) if options.success?
+      error: (resp) -> options.failure(resp) if options.failure?
+
+  phoneClick: (event) ->
+    event.preventDefault()
+    if @isDynamicPhone()
+      if @phoneIsExpired()
+        @updatePhoneNumberRequest
+          success: (resp) =>
+            @model.set term_num: resp["display_num"]
+            @showPhone()
+            @updateClickedPhoneNumberRequest()
+          failure: (e) => @handlePhoneError(e)
+      else
+        @showPhone()
+        @updateClickedPhoneNumberRequest()
+    else
+      @showPhone()
+
+  handlePhoneError: (error) ->
+    switch JSON.parse(error.responseText).error
+      when "Prevent Spam Attack"
+        @$('#overusage-error').modal('toggle')
+      when "Heavy Server Load"
+        @$('#heavy-load').modal('toggle')
+
+  showPhone: () ->
+    @displayPhone()
+
+  isDynamicPhone: ->
+    @model.get('num_type') not in ['1','2']
+
+  phoneIsExpired: ->
+    expires = 1 # will be replaced by 5
+    disp = new Date(@displayed_at)
+    displayed_at_plus_expires = disp.setMinutes(@displayed_at.getMinutes() + expires)
+    current_time = new Date()
+    displayed_at_plus_expires < current_time
+
+  displayed_at: null
+
+  displayPhone: () ->
+    id = @model.get('id')
+    classClick = '.clickTo-' + id
+    classTelephone = '.telephone-' + id
+    classCounter = '.counter-' + id
+    $(classClick).hide()
+    $(classTelephone).html @formatPhoneNumber(@model.get('term_num'))
+    if jQuery.browser.mobile
+      window.location = $(classTelephone).find("a").attr('href')
+    # $(classTelephone).html @model.get('term_num')
+    $(classCounter).countdown({ until: +60, format: 'MS', layout: '<div>This number will expire in: {mn}:{sn}</div>', onExpiry: ->
+      $(classClick).show()
+      $(classTelephone).html ''
+      $(classCounter).html ''
+      $(classCounter).removeClass('hasCountdown')
+    })
+

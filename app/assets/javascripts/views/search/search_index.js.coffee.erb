@@ -1,0 +1,193 @@
+class Widget.Views.SearchIndex extends Backbone.View
+  template: JST['search/index']
+
+  tagName: 'search-results'
+  events:
+    'submit #search_form': 'searchListings'
+    'ajaxStart #category': 'toggleClassCategory'
+    'ajaxSuccess #category': 'toggleClassCategory'
+    'ajaxError #category': 'toggleClassCategory'
+    'ajaxStart #city': 'toggleClassCity'
+    'ajaxSuccess #city': 'toggleClassCity'
+    'ajaxError #city': 'toggleClassCity'
+    'focus #city': 'createAutoCompleteForCity'
+
+  initialize: ->
+    @collection.on  'reset', @renderViewListing, @
+    @options.advs.on 'reset', @renderViewListing, @
+    @collection.on 'fetch:start', @showLoadingSearch, @
+    @collection.on 'fetch:end', @hideLoadingSearch, @
+
+
+  render: ->
+    $(@el).html(@template({ city: $.cookie('city')}))
+    @renderAutocomplete()
+    this
+
+  renderAutocomplete: ->
+    @$('#category').autocomplete(
+      source: (request, response) ->
+        $.ajax(
+          url: "/api/suggestions"
+          dataType: "json"
+          cache: false
+          data:
+            maxRows: 12
+            what: request.term
+            where: $('#city').val()
+          success: ( data ) ->
+            response( $.map( data, (item) ->
+                return {
+                    label: (item.cat_category || item.company)
+                    value: (item.cat_category || item.company)
+                }
+            ))
+          error: (jqXHR, textStatus, errorThrown) ->
+            console.log textStatus
+            console.log errorThrown
+            $(@).val(textStatus + ' ' + errorThrown)
+        )
+      minLength: 3
+      delay: 0
+      select: (event, ui) ->
+        $(@).val( if ui.item then ui.item.label else @val())
+        $('#suggested_category').val(if ui.item then ui.item.label)
+      open: ->
+        $(@).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" )
+        $(".ui-menu").css('width','inherit')
+        window.parent.postMessage($(document).height(), '*')
+        $(".ui-menu").prepend("<li><h3 class='h3-autocomplete'>Select best option...</h3></li>")
+      close: ->
+        $(@).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" )
+    )
+
+    @createAutoCompleteForCity()
+
+  createAutoCompleteForCity: ->
+    @$('#city').autocomplete(
+      source: (request, response) ->
+        $.ajax(
+          url: "/api/suggestions/cities"
+          dataType: "json"
+          cache: false
+          data:
+            where: request.term
+            maxRows: 30
+          success: ( data ) ->
+            if $('#city').is(":focus")
+              response( $.map( data, (item) ->
+                  return {
+                      label: item
+                      value: item
+                  }
+              ))
+            else
+              $('#city').autocomplete("destroy")
+              $('#city').removeClass "ui-autocomplete-loading"
+          error: (jqXHR, textStatus, errorThrown) ->
+             $(@).val(textStatus + ' ' + errorThrown)
+        )
+      minLength: 3
+      delay: 0
+      select: (event, ui) ->
+        $(@).val( if ui.item then ui.item.label else @val())
+        $('#suggested_city').val(if ui.item then ui.item.label)
+      open: (event, ui)->
+        $(@).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" )
+        window.parent.postMessage($(document).height(), '*')
+        $(".ui-menu").prepend("<li><h3 class='h3-autocomplete'>Select best option...</h3></li>")
+      close: ->
+        $(@).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" )
+    )
+
+  toggleClassCategory: ->
+    $('#category').toggleClass "ui-autocomplete-loading"
+
+  toggleClassCity: ->
+    $('#city').toggleClass "ui-autocomplete-loading"
+
+  showLoadingSearch: ->
+    window.parent.postMessage($(document).height(), '*')
+    $('#loading-search').addClass("loading")
+    $('#search-results').hide()
+    $('#get-better-results').hide()
+    $('#advs').hide()
+
+  loadOffer: (what, where) ->
+    $.getJSON "/api/offer/show/", {where: where, what: what}, (data) ->
+      model = new Widget.Models.Offer(data)
+      view = new Widget.Views.Offer({model: model})
+      view.render()
+
+
+  hideLoadingSearch: ->
+    $('#loading-search').removeClass("loading")
+    $('#advs').show()
+  searchListings: (event) ->
+    event.preventDefault()
+    city_val = $('#city').val().toLowerCase().trim()
+    if (/^(\w+((\s*\w+)*)), ([a-z]{2})$/g.test(city_val) == true )
+      @response = @collection.fetch data: { what: $('#category').val(), where: $('#city').val(), limit: 10,key: '<%=  Digest::SHA1.hexdigest(Time.now.utc.hour.to_s+'sstsecret') %>',
+      hour: '<%= Time.now.utc.hour %>',
+      geolocation: $('#geolocation').val()
+      }
+      timeoutScope =  @options
+      setTimeout (-> timeoutScope.advs.fetch data: { what: $('#category').val(), where: $('#city').val(), limit: 6,key: '<%=  Digest::SHA1.hexdigest(Time.now.utc.hour.to_s+'sstsecret') %>',
+      hour: '<%= Time.now.utc.hour %>',
+      geolocation: $('#geolocation').val()
+      }), 1000
+      what = $('#category').val()
+      where = $('#city').val()
+      @loadOffer(what, where)
+
+    else
+      alert("The City or State you entered is not in the correct format. Enter it like this: Seattle, WA")
+
+  response: null
+
+  renderViewListing: ->
+    $.cookie('city', $('#city').val(), expires: 365)
+    $('#category').autocomplete('close')
+
+    if @response.responseText? and JSON.parse(@response.responseText).spam_error?
+      $('#get-better-results').hide()
+      $('#search-results').show()
+      $('#search-results').html("<div class='hero-unit'><p>Your usage of the Finch is unusually high. To prevent spam attacks on our servers, your usage has been throttled. Please try again in a few minutes. If you think this message has been given in error, please inform us at webmaster@paypercall.org.</p></div>")
+    else if @response.responseText? and JSON.parse(@response.responseText).warning?
+      $('#get-better-results').hide()
+      $('#search-results').show()
+      $('#search-results').html("<div class='hero-unit'><p>Your use of the Finch is a bit unusual. If this pattern continues, you run the risk of being blocked from using the app.</p></div>")
+    else if @response.responseText? and JSON.parse(@response.responseText).error?
+      $('#get-better-results').hide()
+      $('#search-results').show()
+      $('#search-results').html("<div class='hero-unit'><p>Your use of the Phone Finch is unusually high, indicating potential abuse. You will now be locked out of the system for a random period of time. Please try your search again later. This is a friendly warning that if these search patterns continue, you will be banned from the system permanently.</p></div>")
+    else if (@collection.length > 0 or @options.advs.length > 0)
+      if @collection.length > 0
+        viewListing = new Widget.Views.ListingsIndex(collection: @collection)
+        results_view = new Widget.Views.ResultsFor
+          model:
+            category: $('#category').val()
+            city: $('#city').val()
+        $('#search-results').show()
+        $('#search-results').html(results_view.render().el)
+        $('#search-results').append(viewListing.render().el)
+
+      viewAdvs = new Widget.Views.AdvsIndex(collection: @options.advs)
+      $('#advs').replaceWith(viewAdvs.render().el)
+      viewAdvs.appendWebAd()
+
+      $(".listing:last").addClass("last-item")
+      window.parent.postMessage($('#search-results').height() + 230, '*')
+    else
+      # $('#search-results').html("<h2>NO RESULTS FOR: #{$('#category').val()} #{$('#city').val()} </h2>")
+      # $('#search-results').show()
+      not_found = new Widget.Views.NotFound
+        model:
+          category: $('#category').val()
+          city: $('#city').val()
+      $('#search-results').html(not_found.render().el)
+      $('#search-results').show()
+      get_better_results = new Widget.Views.GetBetterResults
+      $('#get-better-results').html(get_better_results.render().el)
+      $('#get-better-results img').css('max-width','inherit')
+      $('#get-better-results').show()
